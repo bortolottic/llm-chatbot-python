@@ -4,6 +4,7 @@ from langchain.tools import Tool
 from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from langchain.prompts import PromptTemplate
 from tools.vector import kg_qa
+from tools.cypher import cypher_qa
 
 # Include the LLM from a previous lesson
 from llm import llm
@@ -20,12 +21,18 @@ tools = [
         description="Provides information about movie plots using Vector Search", # (2)
         func = kg_qa, # (3)
         return_direct=False
-    )    
+    ),
+    Tool.from_function(
+        name="Graph Cypher QA Chain",  # (1)
+        description="Provides information about Movies including their Actors, Directors and User reviews", # (2)
+        func = cypher_qa, # (3)
+        return_direct=False
+    ),
 ]
 
 memory = ConversationBufferWindowMemory(
     memory_key='chat_history',
-    k=1,
+    k=5,
     return_messages=True,
 )
 
