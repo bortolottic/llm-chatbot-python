@@ -14,3 +14,12 @@ def write_message(role, content, save = True):
     with st.chat_message(role):
         st.markdown(content)
 # end::write_message[]
+
+# tag::load_variables[]
+def load_variables():
+    with open('/mnt/dados/projetos/variables.data', 'r') as file:
+        code_lines = file.readlines()
+    for cl in code_lines:
+        exec(cl)
+    return locals()
+# end::load_variables[]
