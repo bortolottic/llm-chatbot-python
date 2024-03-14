@@ -13,19 +13,19 @@ tools = [
         name="General Chat",
         description="For general chat not covered by other tools",
         func=llm.invoke,
-        return_direct=True
+        return_direct=False
     ),
     Tool.from_function(
         name="Vector Search Index",  # (1)
         description="Provides information about movie plots using Vector Search", # (2)
         func = kg_qa, # (3)
-        return_direct=True
+        return_direct=False
     )    
 ]
 
 memory = ConversationBufferWindowMemory(
     memory_key='chat_history',
-    k=5,
+    k=1,
     return_messages=True,
 )
 
@@ -36,6 +36,7 @@ Do not answer any questions that do not relate to movies, actors or directors.
 
 Do not answer any questions using your pre-trained knowledge, only use the information provided in the context.
 
+                                            
 TOOLS:
 ------
 
@@ -73,7 +74,7 @@ agent_executor = AgentExecutor(
     agent=agent,
     tools=tools,
     memory=memory,
-    verbose=True
+    verbose=False
     )
 
 def generate_response(prompt):
